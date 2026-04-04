@@ -9,11 +9,7 @@ public class MyLoginPage extends MyBasePage {
     private By loginButton = By.xpath("//button[@type='submit']");
 
     public void setUsername(String username) {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitForElement(loginButton, 5000);
         set(usernameField, username);
     }
 

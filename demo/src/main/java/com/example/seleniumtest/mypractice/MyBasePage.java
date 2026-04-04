@@ -24,4 +24,19 @@ public class MyBasePage {
     protected void click(By locator) {
         find(locator).click();
     }
+
+    protected void waitForElement(By locator, int timeoutInSeconds) {
+        // endTime is current time + timeout duration
+        long endTime = System.currentTimeMillis() + timeoutInSeconds * 3000;
+        while (System.currentTimeMillis() < endTime) {
+            try {
+                if (find(locator).isDisplayed()) {
+                    return;
+                }
+            } catch (Exception e) {
+                // Ignore exceptions and continue waiting
+            }
+        }
+        throw new RuntimeException("Element not found: " + locator);
+    }
 }

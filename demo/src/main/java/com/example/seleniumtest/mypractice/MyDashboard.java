@@ -7,11 +7,7 @@ public class MyDashboard extends MyBasePage {
     private By dashboardHeader = By.xpath("//h6[text()='Dashboard']");
 
     public boolean isDashboardHeaderDisplayed() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitForElement(dashboardHeader, 5000);
         return find(dashboardHeader).isDisplayed();
     }
 }
