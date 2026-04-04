@@ -27,7 +27,9 @@ public class MyBasePage {
 
     protected void waitForElement(By locator, int timeoutInSeconds) {
         // endTime is current time + timeout duration
-        long endTime = System.currentTimeMillis() + timeoutInSeconds * 3000;
+        long endTime = System.currentTimeMillis() + timeoutInSeconds * 1000;
+        // System.currentTimeMillis() returns the current time in milliseconds smaller
+        // than endTime, keep checking for the element until the timeout is reached
         while (System.currentTimeMillis() < endTime) {
             try {
                 if (find(locator).isDisplayed()) {
