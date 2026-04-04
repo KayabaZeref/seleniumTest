@@ -4,7 +4,7 @@ A comprehensive test automation framework built with **Selenium**, **Java**, and
 
 ## 📋 Project Overview
 
-This project is designed to automate testing of the [Sauce Demo](https://www.saucedemo.com/) e-commerce website. It provides a scalable and maintainable framework for writing and executing automated test cases.
+This project demonstrates modern automation testing best practices on multiple web applications, including the [Sauce Demo](https://www.saucedemo.com/) e-commerce website and the [OrangeHRM Demo](https://opensource-demo.orangehrmlive.com/) site. It provides a scalable and maintainable framework for writing and executing automated test cases using different approaches.
 
 ### Key Features
 
@@ -31,29 +31,38 @@ This project is designed to automate testing of the [Sauce Demo](https://www.sau
 ```
 demo/
 ├── pom.xml                                    # Maven configuration file
-├── README.md                                  # Project documentation
 └── src/
     ├── main/
     │   └── java/
+    │       ├── com/example/seleniumtest/
+    │       │   ├── App.java                    # Main application class
+    │       │   └── mypractice/
+    │       │       ├── MyBasePage.java         # Base page for OrangeHRM POM
+    │       │       ├── MyDashboard.java        # Dashboard page for OrangeHRM
+    │       │       └── MyLoginPage.java        # Login page for OrangeHRM
     │       └── com/saucedemo/
     │           └── pages/
-    │               ├── BasePage.java          # Base class for all page objects
-    │               ├── LoginPage.java         # Login page object model
-    │               └── ProductsPage.java      # Products page object model
+    │               ├── BasePage.java           # Base class for SauceDemo page objects
+    │               ├── LoginPage.java          # Login page object model for SauceDemo
+    │               └── ProductsPage.java       # Products page object model for SauceDemo
     │
     └── test/
         └── java/
             ├── com/example/seleniumtest/
-            │   └── AppTest.java               # Sample test
+            │   └── AppTest.java                # Sample test
+            ├── myTest/
+            │   └── mylogintest/
+            │       ├── MyBaseTest.java         # Base test for OrangeHRM tests
+            │       └── MyLoginTest.java        # Login tests for OrangeHRM
             ├── part1/
-            │   └── FirstSeleniumTest.java     # Basic Selenium tests
+            │   └── FirstSeleniumTest.java      # Basic Selenium tests for OrangeHRM
             └── part2/
                 └── com/saucedemo/
                     ├── base/
-                    │   └── BaseTest.java      # Base test configuration
+                    │   └── BaseTest.java       # Base test configuration for SauceDemo
                     └── tests/
                         └── login/
-                            └── LoginTests.java # Login test cases
+                            └── LoginTests.java # Login test cases for SauceDemo
 ```
 
 ## 🚀 Getting Started
@@ -127,6 +136,11 @@ mvn test -Dtest=LoginTests#testLoginErrorMessage
 mvn test -Dtest=FirstSeleniumTest
 ```
 
+### Run OrangeHRM Practice Tests
+```bash
+mvn test -Dtest=myTest.mylogintest.MyLoginTest
+```
+
 ### Run Tests with Maven Surefire Plugin
 ```bash
 mvn clean test -DsuiteXmlFile=testng.xml
@@ -150,6 +164,29 @@ public void testLoginErrorMessage() {
     // Verify error message
     String actualErrorMessage = loginPage.getErrorMessage();
     Assert.assertTrue(actualErrorMessage.contains("Epic sadface"));
+}
+```
+
+### Basic Login Test
+Located in [FirstSeleniumTest.java](src/test/java/part1/FirstSeleniumTest.java):
+
+```java
+@Test
+public void testLoggingIntoApplication() throws InterruptedException {
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    WebElement username = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("username")));
+    username.sendKeys("Admin");
+
+    WebElement password = driver.findElement(By.name("password"));
+    password.sendKeys("admin123");
+
+    driver.findElement(By.tagName("button")).click();
+
+    Thread.sleep(5000);
+
+    String actualString = driver.findElement(By.tagName("h6")).getText();
+    String expectedString = "Dashboard";
+    Assert.assertEquals(actualString, expectedString);
 }
 ```
 
@@ -287,6 +324,7 @@ public class NewPage extends BasePage {
 - [TestNG Documentation](https://testng.org/doc/)
 - [WebDriverManager GitHub](https://github.com/bonigarcia/webdrivermanager)
 - [Sauce Demo Website](https://www.saucedemo.com/)
+- [OrangeHRM Demo Website](https://opensource-demo.orangehrmlive.com/)
 - [Page Object Model - Best Practices](https://www.selenium.dev/documentation/test_practices/encouraged/page_object_models/)
 
 ## 📄 License
