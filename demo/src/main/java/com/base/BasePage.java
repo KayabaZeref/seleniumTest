@@ -1,4 +1,4 @@
-package com.saucedemo.pages;
+package com.base;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -32,5 +32,13 @@ public class BasePage {
     // This method clicks on a web element located by the provided locator.
     protected void click(By locator) {
         find(locator).click();
+    }
+
+    public void wait(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

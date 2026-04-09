@@ -2,6 +2,8 @@ package com.saucedemo.pages;
 
 import org.openqa.selenium.By;
 
+import com.base.BasePage;
+
 public class LoginPage extends BasePage {
 
     // Locators for the username field, password field, login button, and error

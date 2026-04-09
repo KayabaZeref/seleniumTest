@@ -1,5 +1,220 @@
 # Selenium Test Automation Framework
 
+A comprehensive Java-based test automation framework using Selenium WebDriver, TestNG, and the Page Object Model (POM) design pattern. This project demonstrates best practices for automating web application testing across multiple demo sites, including SauceDemo and DemoQA.
+
+## 🚀 Overview
+
+This framework provides a scalable, maintainable structure for writing automated tests. It covers basic Selenium interactions, advanced techniques like JavaScript execution, and real-world scenarios across different web applications.
+
+### ✨ Key Features
+
+- **Page Object Model (POM)**: Clean separation of test logic and UI elements
+- **Cross-Browser Testing**: Support for multiple browsers via WebDriverManager
+- **TestNG Integration**: Robust test execution with annotations and reporting
+- **Utility Classes**: Reusable components for JavaScript interactions and common operations
+- **Maven Build**: Dependency management and automated builds
+- **Modular Architecture**: Organized into parts for progressive learning
+
+## 🛠️ Technology Stack
+
+| Component | Version | Description |
+|-----------|---------|-------------|
+| Java | 17+ | Core programming language |
+| Selenium WebDriver | 4.20.0 | Web automation framework |
+| TestNG | 7.10.2 | Testing framework |
+| WebDriverManager | 5.6.2 | Automatic browser driver management |
+| Maven | 3.6+ | Build tool and dependency management |
+
+## 📁 Project Structure
+
+```
+demo/
+├── pom.xml
+└── src/
+    ├── main/java/
+    │   ├── com/
+    │   │   ├── base/
+    │   │   │   └── BasePage.java              # Base class for page objects
+    │   │   ├── demoqa/
+    │   │   │   └── pages/
+    │   │   │       ├── HomePage.java          # DemoQA home page object
+    │   │   │       └── forms/
+    │   │   │           └── FormsPage.java     # DemoQA forms page object
+    │   │   └── example/
+    │   │       └── seleniumtest/
+    │   │           ├── App.java                # Sample application class
+    │   │           └── mypractice/
+    │   │               ├── MyBasePage.java     # Custom base page for practice
+    │   │               ├── MyDashboard.java    # Dashboard page object
+    │   │               └── MyLoginPage.java    # Login page object
+    │   └── utilities/
+    │       ├── JavaScriptUtility.java         # JavaScript execution utilities
+    │       └── Utility.java                   # General utility methods
+    └── test/java/
+        ├── com/example/seleniumtest/
+        │   └── AppTest.java                    # Basic test example
+        ├── myTest/mylogintest/
+        │   ├── MyBaseTest.java                 # Base test class for practice tests
+        │   └── MyLoginTest.java                # Login test cases
+        ├── part1/
+        │   └── FirstSeleniumTest.java          # Introductory Selenium tests
+        ├── part2/
+        │   └── com/saucedemo/
+        │       ├── base/
+        │       │   └── BaseTest.java           # Base test for SauceDemo
+        │       └── tests/
+        │           ├── login/
+        │           │   └── LoginTests.java     # SauceDemo login tests
+        │           └── products/
+        │               └── ProductTests.java   # SauceDemo product tests
+        └── part3_part4/
+            └── com/demoqa/
+                ├── base/
+                │   └── BaseTest.java           # Base test for DemoQA
+                └── tests/
+                    ├── part3/
+                    │   └── javascript/
+                    │       └── JavaScriptTest.java  # JavaScript interaction tests
+                    └── part4/                   # Advanced DemoQA tests
+```
+
+## 📋 Prerequisites
+
+- **Java JDK 17+**: [Download from Oracle](https://www.oracle.com/java/technologies/downloads/) or [OpenJDK](https://openjdk.org/)
+- **Maven 3.6+**: [Download](https://maven.apache.org/download.cgi) or install via package manager
+- **Git** (optional, for cloning)
+
+## 🏁 Getting Started
+
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd demo
+   ```
+
+2. **Verify installations**:
+   ```bash
+   java -version  # Should show Java 17+
+   mvn -version   # Should show Maven 3.6+
+   ```
+
+3. **Build the project**:
+   ```bash
+   mvn clean compile
+   ```
+
+## 🧪 Running Tests
+
+### All Tests
+```bash
+mvn test
+```
+
+### Specific Test Class
+```bash
+mvn test -Dtest=LoginTests
+```
+
+### Specific Test Method
+```bash
+mvn test -Dtest=LoginTests#testValidLogin
+```
+
+### Run by Part
+```bash
+# Part 1: Basic Selenium
+mvn test -Dtest=FirstSeleniumTest
+
+# Part 2: SauceDemo tests
+mvn test -Dtest="**/saucedemo/**/*Test"
+
+# Part 3-4: DemoQA tests
+mvn test -Dtest="**/demoqa/**/*Test"
+```
+
+## 🏗️ Architecture
+
+### Page Object Model
+Each page has a corresponding class that encapsulates:
+- Element locators
+- Page-specific actions
+- Validation methods
+
+### Base Classes
+- **BasePage**: Common WebDriver operations (find, click, set text)
+- **BaseTest**: Test setup/teardown, driver initialization
+
+### Utilities
+- **JavaScriptUtility**: Advanced interactions using JavaScriptExecutor
+- **Utility**: Shared helper methods
+
+## 📝 Example Test
+
+```java
+@Test
+public void testValidLogin() {
+    loginPage.setUsername("standard_user");
+    loginPage.setPassword("secret_sauce");
+    loginPage.clickLogin();
+
+    // Verify successful login
+    Assert.assertTrue(productsPage.isProductsPageDisplayed());
+}
+```
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**WebDriver not found**: WebDriverManager handles this automatically. Ensure internet connection for driver downloads.
+
+**Elements not found**: Check locators match current UI. Add explicit waits:
+```java
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+```
+
+**Port conflicts**: Close other browser instances or use different ports.
+
+## 🚀 Extending the Framework
+
+### Add New Page Object
+```java
+public class NewPage extends BasePage {
+    private By newElement = By.id("newElement");
+
+    public void interactWithNewElement() {
+        click(newElement);
+    }
+}
+```
+
+### Add New Test
+```java
+public class NewTest extends BaseTest {
+    @Test
+    public void newTestCase() {
+        // Test implementation
+    }
+}
+```
+
+## 📚 Resources
+
+- [Selenium Documentation](https://www.selenium.dev/documentation/)
+- [TestNG Documentation](https://testng.org/doc/)
+- [WebDriverManager](https://github.com/bonigarcia/webdrivermanager)
+- [SauceDemo](https://www.saucedemo.com/)
+- [DemoQA](https://demoqa.com/)
+
+## 📄 License
+
+This project is for educational purposes. Feel free to use and modify.
+
+---
+
+**Happy Testing! 🎯**# Selenium Test Automation Framework
+
 A comprehensive test automation framework built with **Selenium**, **Java**, and **TestNG** for testing web applications. This project demonstrates modern automation testing best practices using the **Page Object Model (POM)** design pattern.
 
 ## 📋 Project Overview
